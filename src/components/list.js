@@ -19,6 +19,10 @@ const StyledList = styled.div`
   .list__wrapper {
     padding: 20px;
   }
+
+  p {
+    margin: 0;
+  }
 `;
 
 const List = () => {
@@ -34,15 +38,22 @@ const List = () => {
           {filteredData.length === 1 ? 'Eintrag' : 'Einträge'}
         </p>
         {filteredData.map(({ node }) => (
-          <button
-            key={node.id}
-            onClick={() => {
-              updateFilter('city', node.city);
-              updateActiveViewport(node.lat, node.lng);
-            }}
-          >
-            {node.name}
-          </button>
+          <div key={node.id}>
+            <hr />
+            <button
+              onClick={() => {
+                updateFilter('city', node.city);
+                updateActiveViewport(node.lat, node.lng);
+              }}
+            >
+              {node.name}
+            </button>
+            <p>
+              Status: {node.destroyed && 'Zerstört'}
+              {node.unused && 'Unbenutzt'}
+            </p>
+            <p>Baujahr: {node.constructionYear}</p>
+          </div>
         ))}
       </div>
     </StyledList>

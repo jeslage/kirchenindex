@@ -5,6 +5,7 @@ import ReactMapGL, {
   Marker,
   FlyToInterpolator
 } from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 import styled from 'styled-components';
 
@@ -16,6 +17,9 @@ const StyledMarker = styled.button`
   height: 20px;
   background: ${props => (props.disabled ? 'lightgray' : 'green')};
   border-radius: 20px;
+  outline: none;
+  border: none;
+  appearance: none;
 `;
 
 const Map = () => {
@@ -27,7 +31,8 @@ const Map = () => {
     height: '100vh',
     latitude: 51.15,
     longitude: 10.25,
-    zoom: 5.4
+    zoom: 5.4,
+    minZoom: 4.5
   });
 
   const goToViewport = ({ lat, lng }) => {
@@ -35,13 +40,14 @@ const Map = () => {
       viewport.longitude.toFixed(2) !== lng.toFixed(2) &&
       viewport.longitude.toFixed(2) !== lng.toFixed(2)
     ) {
-      setViewport({
+      setViewport(prev => ({
+        ...prev,
         longitude: lng,
         latitude: lat,
         zoom: 11,
         transitionInterpolator: new FlyToInterpolator(),
-        transitionDuration: 3000
-      });
+        transitionDuration: 2000
+      }));
     }
   };
 
@@ -53,6 +59,7 @@ const Map = () => {
     <>
       <ReactMapGL
         {...viewport}
+        mapStyle="mapbox://styles/jeslage/ck13lkmes0p5j1cru4bydm7oy"
         mapboxApiAccessToken={
           'pk.eyJ1IjoiamVzbGFnZSIsImEiOiJjazEzOGU4bmIwNjkwM25zY3VnbzllYjY1In0.yxdP7pdDMiwq7tTBcmMwCQ'
         }

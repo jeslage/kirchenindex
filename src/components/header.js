@@ -5,8 +5,9 @@ import styled from 'styled-components';
 const StyledHeader = styled.header`
   position: fixed;
   top: 0;
-  left: 50%;
+  left: 0;
   z-index: 1;
+  padding: 20px;
 `;
 
 const Header = ({ siteTitle }) => (

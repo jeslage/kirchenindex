@@ -19,6 +19,7 @@ const FilterProvider = ({ children }) => {
             lng
             destroyed
             unused
+            constructionYear
           }
         }
       }

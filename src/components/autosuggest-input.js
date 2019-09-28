@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 
-const AutosuggestInput = ({ value, onUpdate, items }) => {
+const AutosuggestInput = ({ placeholder, value, onUpdate, items }) => {
   const [suggestions, setSuggestions] = useState([]);
 
   // Imagine you have a list of languages that you'd like to autosuggest.
@@ -9,11 +9,8 @@ const AutosuggestInput = ({ value, onUpdate, items }) => {
   // Teach Autosuggest how to calculate suggestions for any given input value.
   const getSuggestions = val => {
     const inputValue = val.trim().toLowerCase();
-    const { length } = inputValue;
 
-    return items.filter(
-      item => item.name.toLowerCase().substring(0, length) === inputValue
-    );
+    return items.filter(item => item.name.toLowerCase().includes(inputValue));
   };
 
   // Use your imagination to render suggestions.
@@ -21,7 +18,7 @@ const AutosuggestInput = ({ value, onUpdate, items }) => {
 
   // Autosuggest will pass through all these props to the input.
   const inputProps = {
-    placeholder: 'City',
+    placeholder,
     value: value ? value : '',
     onChange: e => {
       const { value } = e.target;
@@ -40,6 +37,7 @@ const AutosuggestInput = ({ value, onUpdate, items }) => {
         event.preventDefault();
         onUpdate(suggestionValue);
       }}
+      renderSuggestionsContainer={({ children }) => <div>{children}</div>}
       onSuggestionsClearRequested={() => setSuggestions([])}
       getSuggestionValue={suggestion => suggestion.name}
       renderSuggestion={renderSuggestion}

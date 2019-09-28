@@ -7,12 +7,25 @@ const StyledFilter = styled.aside`
   position: relative;
   padding: 20px;
 
-  label {
-    display: block;
-  }
-
   input[disabled] {
     opacity: 0.2;
+
+    & + label {
+      opacity: 0.2;
+    }
+  }
+
+  span {
+    width: 20px;
+    height: 20px;
+    background: gray;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
   }
 `;
 
@@ -24,9 +37,10 @@ const Filter = () => {
   return (
     <StyledFilter>
       <button type="button" onClick={() => resetFilter()}>
-        Reset filter
+        Filter zurücksetzten
       </button>
       <AutosuggestInput
+        placeholder="Stadt"
         value={filter.city}
         onUpdate={value => updateFilter('city', value)}
         items={filteredData.map(({ node }) => ({
@@ -34,7 +48,7 @@ const Filter = () => {
         }))}
       />
 
-      <label htmlFor="destroyed">
+      <div>
         <input
           type="checkbox"
           name="destroyed"
@@ -44,9 +58,12 @@ const Filter = () => {
           }
           onChange={e => updateFilter('destroyed', e.target.checked)}
         />
-        Destroyed {filteredData.filter(item => item.node.destroyed).length}
-      </label>
-      <label htmlFor="unused">
+        <label htmlFor="destroyed">
+          Zerstört{' '}
+          <span>{filteredData.filter(item => item.node.destroyed).length}</span>
+        </label>
+      </div>
+      <div>
         <input
           type="checkbox"
           name="unused"
@@ -54,8 +71,11 @@ const Filter = () => {
           disabled={filteredData.filter(item => item.node.unused).length === 0}
           onChange={e => updateFilter('unused', e.target.checked)}
         />
-        Unused {filteredData.filter(item => item.node.unused).length}
-      </label>
+        <label htmlFor="unused">
+          Unbenutzt{' '}
+          <span>{filteredData.filter(item => item.node.unused).length}</span>
+        </label>
+      </div>
     </StyledFilter>
   );
 };
