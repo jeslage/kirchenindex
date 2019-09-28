@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "name": "Kirche Aachen",
+    "city": "Aachen",
+    "lat": 50.77664,
+    "lng": 6.08342,
+    "destroyed": false,
+    "unused": true
+  },
+  {
+    "id": 2,
+    "name": "Kirche Stuttgart",
+    "city": "Stuttgart",
+    "lat": 48.78232,
+    "lng": 9.17702,
+    "destroyed": true,
+    "unused": true
+  },
+  {
+    "id": 3,
+    "name": "Kirche Berlin",
+    "city": "Berlin",
+    "lat": 52.51,
+    "lng": 13.4,
+    "destroyed": false,
+    "unused": false
+  }
+]
