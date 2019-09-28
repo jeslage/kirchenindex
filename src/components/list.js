@@ -13,11 +13,15 @@ const StyledList = styled.div`
   width: 300px;
   height: 100vh;
   background: white;
+  display: flex;
+  flex-direction: column;
   z-index: 2;
   padding: 20px;
 
   .list__wrapper {
     padding: 20px;
+    flex-grow: 2;
+    overflow-y: auto;
   }
 
   p {
@@ -53,6 +57,8 @@ const List = () => {
               {node.unused && 'Unbenutzt'}
             </p>
             <p>Baujahr: {node.constructionYear}</p>
+            <p>Entweiht: {node.profaned}</p>
+            <p>Architekt: {node.architect}</p>
           </div>
         ))}
       </div>

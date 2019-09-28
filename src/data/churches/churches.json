@@ -7,7 +7,9 @@
     "lng": 6.08342,
     "destroyed": false,
     "unused": true,
-    "constructionYear": 1653
+    "constructionYear": 1653,
+    "profaned": 2004,
+    "architect": "Johannes Eslage"
   },
   {
     "id": 2,
@@ -17,7 +19,9 @@
     "lng": 9.17702,
     "destroyed": true,
     "unused": true,
-    "constructionYear": 1652
+    "constructionYear": 1652,
+    "profaned": 2004,
+    "architect": "Johannes Eslage"
   },
   {
     "id": 3,
@@ -26,7 +30,45 @@
     "lat": 52.51,
     "lng": 13.4,
     "destroyed": false,
+    "unused": true,
+    "constructionYear": 1651,
+    "profaned": 2004,
+    "architect": "Johannes Eslage"
+  },
+  {
+    "id": 4,
+    "name": "Kirche Hamburg",
+    "city": "Hamburg",
+    "lat": 53.55,
+    "lng": 10,
+    "destroyed": true,
+    "unused": true,
+    "constructionYear": 1651,
+    "profaned": 2004,
+    "architect": "Johannes Eslage"
+  },
+  {
+    "id": 5,
+    "name": "Kölner Dom",
+    "city": "Köln",
+    "lat": 50.94,
+    "lng": 6.95,
+    "destroyed": false,
     "unused": false,
-    "constructionYear": 1651
+    "constructionYear": 1651,
+    "profaned": 2004,
+    "architect": "Johannes Eslage"
+  },
+  {
+    "id": 6,
+    "name": "Münchener Dom",
+    "city": "München",
+    "lat": 48.13,
+    "lng": 11.57,
+    "destroyed": false,
+    "unused": false,
+    "constructionYear": 1651,
+    "profaned": 2004,
+    "architect": "Johannes Eslage"
   }
 ]

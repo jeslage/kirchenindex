@@ -37,7 +37,6 @@ const AutosuggestInput = ({ placeholder, value, onUpdate, items }) => {
         event.preventDefault();
         onUpdate(suggestionValue);
       }}
-      renderSuggestionsContainer={({ children }) => <div>{children}</div>}
       onSuggestionsClearRequested={() => setSuggestions([])}
       getSuggestionValue={suggestion => suggestion.name}
       renderSuggestion={renderSuggestion}

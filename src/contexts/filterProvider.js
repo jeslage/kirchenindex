@@ -20,6 +20,8 @@ const FilterProvider = ({ children }) => {
             destroyed
             unused
             constructionYear
+            profaned
+            architect
           }
         }
       }
