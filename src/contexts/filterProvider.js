@@ -25,11 +25,13 @@ const FilterProvider = ({ children }) => {
     }
   `);
 
-  const [filter, setFilter] = useState({
+  const defaultFilter = {
     city: '',
     unused: false,
     destroyed: false
-  });
+  };
+
+  const [filter, setFilter] = useState(defaultFilter);
   const [filteredData, setFilteredData] = useState(edges);
   const [activeViewport, setActiveViewport] = useState();
 
@@ -55,14 +57,18 @@ const FilterProvider = ({ children }) => {
     setFilter(prev => ({ ...prev, [key]: value }));
   };
 
+  const resetFilter = () => setFilter(defaultFilter);
+
   return (
     <FilterContext.Provider
       value={{
         filter,
         updateFilter,
         filteredData,
+        data: edges,
         activeViewport,
-        updateActiveViewport
+        updateActiveViewport,
+        resetFilter
       }}
     >
       {children}

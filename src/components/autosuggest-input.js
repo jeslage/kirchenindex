@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 
-const AutosuggestInput = ({ onUpdate, items }) => {
-  const [value, setValue] = useState('');
+const AutosuggestInput = ({ value, onUpdate, items }) => {
   const [suggestions, setSuggestions] = useState([]);
 
   // Imagine you have a list of languages that you'd like to autosuggest.
@@ -26,11 +25,7 @@ const AutosuggestInput = ({ onUpdate, items }) => {
     value: value ? value : '',
     onChange: e => {
       const { value } = e.target;
-      setValue(value);
-
-      if (value === '' && onUpdate) {
-        onUpdate(value);
-      }
+      onUpdate(value);
     }
   };
 
@@ -43,11 +38,7 @@ const AutosuggestInput = ({ onUpdate, items }) => {
       }}
       onSuggestionSelected={(event, { suggestionValue }) => {
         event.preventDefault();
-        setValue(suggestionValue);
-
-        if (onUpdate) {
-          onUpdate(suggestionValue);
-        }
+        onUpdate(suggestionValue);
       }}
       onSuggestionsClearRequested={() => setSuggestions([])}
       getSuggestionValue={suggestion => suggestion.name}

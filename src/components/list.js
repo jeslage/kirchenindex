@@ -22,7 +22,7 @@ const StyledList = styled.div`
 `;
 
 const List = () => {
-  const { filteredData } = useContext(FilterContext);
+  const { filteredData, updateFilter } = useContext(FilterContext);
   const { updateActiveViewport } = useContext(MapContext);
 
   return (
@@ -36,7 +36,10 @@ const List = () => {
         {filteredData.map(({ node }) => (
           <button
             key={node.id}
-            onClick={() => updateActiveViewport(node.lat, node.lng)}
+            onClick={() => {
+              updateFilter('city', node.city);
+              updateActiveViewport(node.lat, node.lng);
+            }}
           >
             {node.name}
           </button>

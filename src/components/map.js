@@ -1,5 +1,5 @@
 // import PropTypes from "prop-types"
-import React, { useState, useContext, useEffect, useMemo } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ReactMapGL, {
   NavigationControl,
   Marker,
@@ -11,16 +11,16 @@ import styled from 'styled-components';
 import { FilterContext } from '../contexts/filterProvider';
 import { MapContext } from '../contexts/mapProvider';
 
-const StyledMarker = styled.div`
+const StyledMarker = styled.button`
   width: 20px;
   height: 20px;
-  background: green;
+  background: ${props => (props.disabled ? 'lightgray' : 'green')};
   border-radius: 20px;
 `;
 
 const Map = () => {
-  const { activeViewport } = useContext(MapContext);
-  const { filteredData } = useContext(FilterContext);
+  const { activeViewport, updateActiveViewport } = useContext(MapContext);
+  const { data, filteredData, updateFilter } = useContext(FilterContext);
 
   const [viewport, setViewport] = useState({
     width: '100%',
@@ -29,10 +29,6 @@ const Map = () => {
     longitude: 10.25,
     zoom: 5.4
   });
-
-  useEffect(() => {
-    if (activeViewport) goToViewport(activeViewport);
-  }, [activeViewport]);
 
   const goToViewport = ({ lat, lng }) => {
     if (
@@ -49,6 +45,10 @@ const Map = () => {
     }
   };
 
+  useEffect(() => {
+    if (activeViewport) goToViewport(activeViewport);
+  }, [activeViewport]);
+
   return (
     <>
       <ReactMapGL
@@ -62,7 +62,7 @@ const Map = () => {
           <NavigationControl />
         </div>
 
-        {filteredData.map(({ node }) => (
+        {data.map(({ node }) => (
           <Marker
             key={node.id}
             latitude={node.lat}
@@ -70,7 +70,16 @@ const Map = () => {
             offsetLeft={-20}
             offsetTop={-10}
           >
-            <StyledMarker />
+            <StyledMarker
+              onClick={() => {
+                updateActiveViewport(node.lat, node.lng);
+                updateFilter('city', node.city);
+              }}
+              disabled={
+                filteredData.filter(item => item.node.id === node.id).length ===
+                0
+              }
+            />
           </Marker>
         ))}
       </ReactMapGL>

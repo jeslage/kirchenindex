@@ -10,35 +10,51 @@ const StyledFilter = styled.aside`
   label {
     display: block;
   }
+
+  input[disabled] {
+    opacity: 0.2;
+  }
 `;
 
 const Filter = () => {
-  const { filter, updateFilter, filteredData } = useContext(FilterContext);
+  const { filter, updateFilter, filteredData, resetFilter } = useContext(
+    FilterContext
+  );
 
   return (
     <StyledFilter>
+      <button type="button" onClick={() => resetFilter()}>
+        Reset filter
+      </button>
       <AutosuggestInput
+        value={filter.city}
         onUpdate={value => updateFilter('city', value)}
-        items={filteredData.map(({ node }) => ({ name: node.city }))}
+        items={filteredData.map(({ node }) => ({
+          name: node.city
+        }))}
       />
 
       <label htmlFor="destroyed">
         <input
           type="checkbox"
           name="destroyed"
-          value={filter.destroyed}
+          checked={filter.destroyed}
+          disabled={
+            filteredData.filter(item => item.node.destroyed).length === 0
+          }
           onChange={e => updateFilter('destroyed', e.target.checked)}
         />
-        Destroyed
+        Destroyed {filteredData.filter(item => item.node.destroyed).length}
       </label>
       <label htmlFor="unused">
         <input
           type="checkbox"
           name="unused"
-          value={filter.unused}
+          checked={filter.unused}
+          disabled={filteredData.filter(item => item.node.unused).length === 0}
           onChange={e => updateFilter('unused', e.target.checked)}
         />
-        Unused
+        Unused {filteredData.filter(item => item.node.unused).length}
       </label>
     </StyledFilter>
   );
