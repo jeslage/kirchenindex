@@ -1,13 +1,10 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { FilterContext } from '../contexts/filterProvider';
+import AutosuggestInput from './autosuggest-input';
 
 const StyledFilter = styled.aside`
-  position: fixed;
-  top: 50%;
-  background: white;
-  left: 0;
-  z-index: 1;
+  position: relative;
   padding: 20px;
 
   label {
@@ -16,10 +13,15 @@ const StyledFilter = styled.aside`
 `;
 
 const Filter = () => {
-  const { filter, updateFilter } = useContext(FilterContext);
+  const { filter, updateFilter, filteredData } = useContext(FilterContext);
 
   return (
     <StyledFilter>
+      <AutosuggestInput
+        onUpdate={value => updateFilter('city', value)}
+        items={filteredData.map(({ node }) => ({ name: node.city }))}
+      />
+
       <label htmlFor="destroyed">
         <input
           type="checkbox"

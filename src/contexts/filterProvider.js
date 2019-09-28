@@ -26,17 +26,22 @@ const FilterProvider = ({ children }) => {
   `);
 
   const [filter, setFilter] = useState({
+    city: '',
     unused: false,
     destroyed: false
   });
   const [filteredData, setFilteredData] = useState(edges);
+  const [activeViewport, setActiveViewport] = useState();
 
   useEffect(() => {
-    console.log(filter);
     let values = edges;
 
     Object.keys(filter).map(key => {
-      if (filter[key]) {
+      if (typeof filter[key] === 'string' && filter[key] !== '') {
+        values = values.filter(
+          val => val.node[key].toLowerCase() === filter[key].toLowerCase()
+        );
+      } else if (filter[key]) {
         values = values.filter(val => val.node[key]);
       }
     });
@@ -44,12 +49,22 @@ const FilterProvider = ({ children }) => {
     setFilteredData(values);
   }, [filter]);
 
+  const updateActiveViewport = (lat, lng) => setActiveViewport({ lat, lng });
+
   const updateFilter = (key, value) => {
     setFilter(prev => ({ ...prev, [key]: value }));
   };
 
   return (
-    <FilterContext.Provider value={{ filter, updateFilter, filteredData }}>
+    <FilterContext.Provider
+      value={{
+        filter,
+        updateFilter,
+        filteredData,
+        activeViewport,
+        updateActiveViewport
+      }}
+    >
       {children}
     </FilterContext.Provider>
   );

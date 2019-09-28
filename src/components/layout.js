@@ -12,6 +12,7 @@ import { useStaticQuery, graphql } from 'gatsby';
 import Header from './header';
 import './layout.css';
 import FilterProvider from '../contexts/filterProvider';
+import MapProvider from '../contexts/mapProvider';
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -26,8 +27,10 @@ const Layout = ({ children }) => {
 
   return (
     <FilterProvider>
-      <Header siteTitle={data.site.siteMetadata.title} />
-      <main>{children}</main>
+      <MapProvider>
+        <Header siteTitle={data.site.siteMetadata.title} />
+        <main style={{ display: 'flex' }}>{children}</main>
+      </MapProvider>
     </FilterProvider>
   );
 };

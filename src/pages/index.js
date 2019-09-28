@@ -8,8 +8,6 @@ import List from '../components/list';
 
 const IndexPage = () => (
   <Layout>
-    <SEO title="Home" />
-    <Filter />
     <Map />
     <List />
   </Layout>
