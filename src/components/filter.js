@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { FilterContext } from '../contexts/filterProvider';
 import AutosuggestInput from './autosuggest-input';
+import { MapContext } from '../contexts/mapProvider';
 
 const StyledFilter = styled.aside`
   position: relative;
-  padding: 20px;
 
   input[disabled] {
     opacity: 0.2;
@@ -33,10 +33,17 @@ const Filter = () => {
   const { filter, updateFilter, filteredData, resetFilter } = useContext(
     FilterContext
   );
+  const { resetViewport } = useContext(MapContext);
 
   return (
     <StyledFilter>
-      <button type="button" onClick={() => resetFilter()}>
+      <button
+        type="button"
+        onClick={() => {
+          resetFilter();
+          resetViewport();
+        }}
+      >
         Filter zurücksetzten
       </button>
       <AutosuggestInput

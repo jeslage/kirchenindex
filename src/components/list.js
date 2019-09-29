@@ -16,12 +16,26 @@ const StyledList = styled.div`
   display: flex;
   flex-direction: column;
   z-index: 2;
-  padding: 20px;
+
+  .list__filter {
+    padding: 20px;
+  }
 
   .list__wrapper {
-    padding: 20px;
     flex-grow: 2;
     overflow-y: auto;
+  }
+
+  .list__headline {
+    top: 0;
+    position: sticky;
+    padding: 10px 20px;
+    background: white;
+    border-bottom: 1px solid gray;
+  }
+
+  .list__inner {
+    padding: 20px;
   }
 
   p {
@@ -31,36 +45,43 @@ const StyledList = styled.div`
 
 const List = () => {
   const { filteredData, updateFilter } = useContext(FilterContext);
-  const { updateActiveViewport } = useContext(MapContext);
+  const { updateLatLng } = useContext(MapContext);
 
   return (
     <StyledList>
-      <Filter />
+      <div className="list__filter">
+        <Filter />
+      </div>
       <div className="list__wrapper">
-        <p>
+        <p className="list__headline">
           {filteredData.length}{' '}
           {filteredData.length === 1 ? 'Eintrag' : 'Einträge'}
         </p>
-        {filteredData.map(({ node }) => (
-          <div key={node.id}>
-            <hr />
-            <button
-              onClick={() => {
-                updateFilter('city', node.city);
-                updateActiveViewport(node.lat, node.lng);
-              }}
-            >
-              {node.name}
-            </button>
-            <p>
-              Status: {node.destroyed && 'Zerstört'}
-              {node.unused && 'Unbenutzt'}
-            </p>
-            <p>Baujahr: {node.constructionYear}</p>
-            <p>Entweiht: {node.profaned}</p>
-            <p>Architekt: {node.architect}</p>
-          </div>
-        ))}
+        <div className="list__inner">
+          {filteredData.map(({ node }) => (
+            <div key={node.id}>
+              <hr />
+              <button
+                onClick={() => {
+                  updateFilter('city', node.city);
+                  updateLatLng(node.lat, node.lng);
+                }}
+              >
+                {node.name}
+              </button>
+              <p>
+                {node.lat} {node.lng}
+              </p>
+              <p>
+                Status: {node.destroyed && 'Zerstört'}
+                {node.unused && 'Unbenutzt'}
+              </p>
+              <p>Baujahr: {node.constructionYear}</p>
+              <p>Entweiht: {node.profaned}</p>
+              <p>Architekt: {node.architect}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </StyledList>
   );

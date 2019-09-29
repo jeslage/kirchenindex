@@ -36,7 +36,6 @@ const FilterProvider = ({ children }) => {
 
   const [filter, setFilter] = useState(defaultFilter);
   const [filteredData, setFilteredData] = useState(edges);
-  const [activeViewport, setActiveViewport] = useState();
 
   useEffect(() => {
     let values = edges;
@@ -54,8 +53,6 @@ const FilterProvider = ({ children }) => {
     setFilteredData(values);
   }, [filter]);
 
-  const updateActiveViewport = (lat, lng) => setActiveViewport({ lat, lng });
-
   const updateFilter = (key, value) => {
     setFilter(prev => ({ ...prev, [key]: value }));
   };
@@ -69,8 +66,6 @@ const FilterProvider = ({ children }) => {
         updateFilter,
         filteredData,
         data: edges,
-        activeViewport,
-        updateActiveViewport,
         resetFilter
       }}
     >
