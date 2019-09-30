@@ -35,6 +35,11 @@ const Filter = () => {
   );
   const { resetViewport } = useContext(MapContext);
 
+  const cities = filteredData.map(({ node }) => node.city);
+  const filteredCities = cities.filter(
+    (item, index) => cities.indexOf(item) === index
+  );
+  console.log(filter.city);
   return (
     <StyledFilter>
       <button
@@ -47,30 +52,30 @@ const Filter = () => {
         Filter zurücksetzten
       </button>
       <AutosuggestInput
-        placeholder="Stadt"
         value={filter.city}
+        placeholder="Stadt"
         onUpdate={value => updateFilter('city', value)}
-        items={filteredData.map(({ node }) => ({
-          name: node.city
-        }))}
+        items={filteredCities.map(item => ({ name: item }))}
       />
 
       <div>
-        <input
-          type="checkbox"
-          name="destroyed"
-          checked={filter.destroyed}
-          disabled={
-            filteredData.filter(item => item.node.destroyed).length === 0
-          }
-          onChange={e => updateFilter('destroyed', e.target.checked)}
-        />
-        <label htmlFor="destroyed">
-          Zerstört{' '}
-          <span>{filteredData.filter(item => item.node.destroyed).length}</span>
+        <label htmlFor="status">
+          Status
+          <select
+            name="status"
+            value={filter.status}
+            onChange={e => updateFilter('status', e.target.value)}
+          >
+            <option value="">Alle</option>
+            <option value="abgerissen">Abgerissen</option>
+            <option value="erhalten">Erhalten</option>
+            <option value="teils abgerissen/verfallen">
+              Teils abgerissen/verfallen
+            </option>
+          </select>
         </label>
       </div>
-      <div>
+      {/* <div>
         <input
           type="checkbox"
           name="unused"
@@ -82,7 +87,7 @@ const Filter = () => {
           Unbenutzt{' '}
           <span>{filteredData.filter(item => item.node.unused).length}</span>
         </label>
-      </div>
+      </div> */}
     </StyledFilter>
   );
 };

@@ -15,13 +15,14 @@ const FilterProvider = ({ children }) => {
             name
             id
             city
-            lat
-            lng
-            destroyed
-            unused
-            constructionYear
+            facts
+            latitude
+            longitude
+            confession
+            status
+            facts
             profaned
-            architect
+            sacred
           }
         }
       }
@@ -30,8 +31,7 @@ const FilterProvider = ({ children }) => {
 
   const defaultFilter = {
     city: '',
-    unused: false,
-    destroyed: false
+    status: ''
   };
 
   const [filter, setFilter] = useState(defaultFilter);
@@ -41,12 +41,14 @@ const FilterProvider = ({ children }) => {
     let values = edges;
 
     Object.keys(filter).map(key => {
-      if (typeof filter[key] === 'string' && filter[key] !== '') {
+      if (filter[key] !== '' && key !== 'city') {
         values = values.filter(
           val => val.node[key].toLowerCase() === filter[key].toLowerCase()
         );
-      } else if (filter[key]) {
-        values = values.filter(val => val.node[key]);
+      } else if (filter[key] !== '') {
+        values = values.filter(val =>
+          val.node[key].toLowerCase().includes(filter[key].toLowerCase())
+        );
       }
     });
 

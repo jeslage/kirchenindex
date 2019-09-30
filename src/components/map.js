@@ -43,27 +43,33 @@ const Map = () => {
         <div className="map__control">
           <NavigationControl />
         </div>
-
-        {data.map(({ node }) => (
-          <Marker
-            key={node.id}
-            latitude={node.lat}
-            longitude={node.lng}
-            offsetLeft={-20}
-            offsetTop={-10}
-          >
-            <StyledMarker
-              onClick={() => {
-                updateLatLng(node.lat, node.lng);
-                updateFilter('city', node.city);
-              }}
-              disabled={
-                filteredData.filter(item => item.node.id === node.id).length ===
-                0
-              }
-            />
-          </Marker>
-        ))}
+        {data.map(({ node }) => {
+          if (node.latitude !== '' && node.longitude !== '') {
+            return (
+              <Marker
+                key={node.id}
+                latitude={parseFloat(node.latitude)}
+                longitude={parseFloat(node.longitude)}
+                offsetLeft={-20}
+                offsetTop={-10}
+              >
+                <StyledMarker
+                  onClick={() => {
+                    updateLatLng(
+                      parseFloat(node.latitude),
+                      parseFloat(node.longitude)
+                    );
+                    updateFilter('city', node.city);
+                  }}
+                  disabled={
+                    filteredData.filter(item => item.node.id === node.id)
+                      .length === 0
+                  }
+                />
+              </Marker>
+            );
+          }
+        })}
       </ReactMapGL>
     </StyledMap>
   );

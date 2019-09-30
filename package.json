@@ -25,6 +25,7 @@
     "styled-components": "^4.4.0"
   },
   "devDependencies": {
+    "rimraf": "^3.0.0",
     "prettier": "^1.18.2"
   },
   "license": "MIT",
@@ -33,6 +34,7 @@
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",
-    "serve": "gatsby serve"
+    "serve": "gatsby serve",
+    "clean": "rimraf .cache public"
   }
 }
