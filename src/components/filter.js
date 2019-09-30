@@ -35,11 +35,12 @@ const Filter = () => {
   );
   const { resetViewport } = useContext(MapContext);
 
+  // Shape cities array for autosuggest input
   const cities = filteredData.map(({ node }) => node.city);
   const filteredCities = cities.filter(
     (item, index) => cities.indexOf(item) === index
   );
-  console.log(filter.city);
+
   return (
     <StyledFilter>
       <button
@@ -75,19 +76,6 @@ const Filter = () => {
           </select>
         </label>
       </div>
-      {/* <div>
-        <input
-          type="checkbox"
-          name="unused"
-          checked={filter.unused}
-          disabled={filteredData.filter(item => item.node.unused).length === 0}
-          onChange={e => updateFilter('unused', e.target.checked)}
-        />
-        <label htmlFor="unused">
-          Unbenutzt{' '}
-          <span>{filteredData.filter(item => item.node.unused).length}</span>
-        </label>
-      </div> */}
     </StyledFilter>
   );
 };
