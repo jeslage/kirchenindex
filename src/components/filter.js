@@ -33,7 +33,8 @@ const Filter = () => {
   const { filter, updateFilter, filteredData, resetFilter } = useContext(
     FilterContext
   );
-  const { resetViewport } = useContext(MapContext);
+
+  const { resetViewport, updateLatLng } = useContext(MapContext);
 
   // Shape cities array for autosuggest input
   const cities = filteredData.map(({ node }) => node.city);
@@ -55,7 +56,14 @@ const Filter = () => {
       <AutosuggestInput
         value={filter.city}
         placeholder="Stadt"
-        onUpdate={value => updateFilter('city', value)}
+        onUpdate={value => {
+          updateFilter('city', value);
+
+          const newCity = filteredData.filter(({ node }) =>
+            node.city.includes(value)
+          )[0];
+          updateLatLng(newCity.node.latitude, newCity.node.longitude);
+        }}
         items={filteredCities.map(item => ({ name: item }))}
       />
 

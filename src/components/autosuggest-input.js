@@ -7,7 +7,7 @@ const StyledAutosuggestInput = styled.div`
   }
 
   .react-autosuggest__input {
-    width: 240px;
+    width: calc(100% - 40px);
     height: 30px;
     padding: 10px 20px;
     font-size: 16px;
@@ -34,7 +34,7 @@ const StyledAutosuggestInput = styled.div`
     display: block;
     position: absolute;
     top: 51px;
-    width: 280px;
+    width: 100%;
     border: 1px solid #aaa;
     background-color: #fff;
     font-size: 16px;

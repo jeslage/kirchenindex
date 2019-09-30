@@ -1,17 +1,20 @@
 // import PropTypes from "prop-types"
-import React, { useState, useContext } from 'react';
-import ReactMapGL, { NavigationControl, Marker } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-
+import React, { useContext } from 'react';
+import MapGL, { Marker, NavigationControl } from '@urbica/react-map-gl';
+import Cluster from '@urbica/react-map-gl-cluster';
 import styled from 'styled-components';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { FilterContext } from '../contexts/filterProvider';
 import { MapContext } from '../contexts/mapProvider';
 
 const StyledMarker = styled.button`
-  width: 20px;
-  height: 20px;
-  background: ${props => (props.disabled ? 'lightgray' : 'black')};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${props => (props.isCluster ? '30px' : '20px')};
+  height: ${props => (props.isCluster ? '30px' : '20px')};
+  background: ${props => (props.isCluster ? 'lightgray' : 'black')};
   border-radius: 20px;
   outline: none;
   border: none;
@@ -30,47 +33,62 @@ const StyledMap = styled.div`
 
 const Map = () => {
   const { viewport, updateLatLng, updateViewport } = useContext(MapContext);
-  const { data, filteredData, updateFilter } = useContext(FilterContext);
+  const { filteredData, updateFilter } = useContext(FilterContext);
+
+  const ClusterMarker = ({ longitude, latitude, pointCount }) => (
+    <Marker longitude={longitude} latitude={latitude}>
+      <StyledMarker
+        isCluster
+        onClick={() => {
+          updateLatLng(latitude, longitude);
+        }}
+      >
+        {pointCount}
+      </StyledMarker>
+    </Marker>
+  );
 
   return (
     <StyledMap>
-      <ReactMapGL
+      <MapGL
         {...viewport}
+        viewportChangeMethod="flyTo"
+        style={{ width: '100%', height: '100vh' }}
         mapStyle="mapbox://styles/jeslage/ck13lkmes0p5j1cru4bydm7oy"
-        mapboxApiAccessToken="pk.eyJ1IjoiamVzbGFnZSIsImEiOiJjazEzOGU4bmIwNjkwM25zY3VnbzllYjY1In0.yxdP7pdDMiwq7tTBcmMwCQ"
+        accessToken="pk.eyJ1IjoiamVzbGFnZSIsImEiOiJjazEzOGU4bmIwNjkwM25zY3VnbzllYjY1In0.yxdP7pdDMiwq7tTBcmMwCQ"
         onViewportChange={viewport => updateViewport(viewport)}
       >
-        <div className="map__control">
-          <NavigationControl />
-        </div>
-        {data.map(({ node }) => {
-          if (node.latitude !== '' && node.longitude !== '') {
-            return (
-              <Marker
-                key={node.id}
-                latitude={parseFloat(node.latitude)}
-                longitude={parseFloat(node.longitude)}
-                offsetLeft={-20}
-                offsetTop={-10}
-              >
-                <StyledMarker
-                  onClick={() => {
-                    updateLatLng(
-                      parseFloat(node.latitude),
-                      parseFloat(node.longitude)
-                    );
-                    updateFilter('city', node.city);
-                  }}
-                  disabled={
-                    filteredData.filter(item => item.node.id === node.id)
-                      .length === 0
-                  }
-                />
-              </Marker>
-            );
-          }
-        })}
-      </ReactMapGL>
+        {' '}
+        <NavigationControl showCompass showZoom position="top-right" />
+        <Cluster
+          radius={20}
+          extent={512}
+          nodeSize={64}
+          component={ClusterMarker}
+        >
+          {filteredData.map(({ node }) => (
+            <Marker
+              key={node.id}
+              latitude={node.latitude}
+              longitude={node.longitude}
+            >
+              <StyledMarker
+                onClick={() => {
+                  updateLatLng(
+                    parseFloat(node.latitude),
+                    parseFloat(node.longitude)
+                  );
+                  updateFilter('city', node.city);
+                }}
+                disabled={
+                  filteredData.filter(item => item.node.id === node.id)
+                    .length === 0
+                }
+              />
+            </Marker>
+          ))}
+        </Cluster>
+      </MapGL>
     </StyledMap>
   );
 };

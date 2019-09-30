@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FlyToInterpolator } from 'react-map-gl';
 
 export const MapContext = React.createContext();
 
@@ -17,17 +16,17 @@ const MapProvider = ({ children }) => {
   const [viewport, setViewport] = useState(defaultViewport);
 
   const updateLatLng = (lat, lng) => {
+    const latitude = parseFloat(lat);
+    const longitude = parseFloat(lng);
     if (
-      viewport.latitude.toFixed(2) !== lat.toFixed(2) &&
-      viewport.longitude.toFixed(2) !== lng.toFixed(2)
+      viewport.latitude.toFixed(2) !== latitude.toFixed(2) &&
+      viewport.longitude.toFixed(2) !== longitude.toFixed(2)
     ) {
       setViewport(prev => ({
         ...prev,
-        latitude: lat,
-        longitude: lng,
-        zoom: 11,
-        transitionInterpolator: new FlyToInterpolator(),
-        transitionDuration: 3000
+        latitude: latitude,
+        longitude: longitude,
+        zoom: 11
       }));
     }
   };
@@ -35,9 +34,7 @@ const MapProvider = ({ children }) => {
   const updateViewport = view => setViewport(view);
   const resetViewport = () =>
     setViewport({
-      ...defaultViewport,
-      transitionInterpolator: new FlyToInterpolator(),
-      transitionDuration: 3000
+      ...defaultViewport
     });
 
   return (
