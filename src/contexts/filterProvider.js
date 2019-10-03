@@ -31,7 +31,8 @@ const FilterProvider = ({ children }) => {
 
   const defaultFilter = {
     city: '',
-    status: ''
+    status: '',
+    confession: ''
   };
 
   const [filter, setFilter] = useState(defaultFilter);

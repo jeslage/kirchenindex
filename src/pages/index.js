@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Layout from '../components/layout';
-import Map from '../components/map';
-import List from '../components/list';
+import Layout from '../components/layout/layout';
+import Map from '../components/map/map';
+import List from '../components/list/list';
 
 const IndexPage = () => (
   <Layout>

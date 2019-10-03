@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Kirchenindex`,
+    title: `Ein Jegliches hat seine Zeit`,
     description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
     author: `@gatsbyjs`
   },
